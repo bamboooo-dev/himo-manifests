@@ -8,8 +8,7 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: 5502
       protocol: TCP
-      name: http
   selector:
     {{- include "outgame.selectorLabels" . | nindent 4 }}
