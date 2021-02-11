@@ -5,6 +5,7 @@ metadata:
   labels:
     {{- include "outgame-db.labels" . | nindent 4 }}
 spec:
+  serviceName: {{ include "outgame-db.fullname" . }}
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
