@@ -8,7 +8,7 @@ image:
   repository: bamboooo/himo-outgame
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: 7ad8a1d4b00ab2
 
 imagePullSecrets: []
 nameOverride: ""
