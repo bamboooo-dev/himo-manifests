@@ -33,18 +33,25 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: "/var/lib/mysql"
+              name: mysql-data
+          args:
+          - "--default-authentication-plugin=mysql_native_password"
+          env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: root
           ports:
-            - name: http
-              containerPort: 80
+            - containerPort: 3306
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -59,3 +66,8 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: mysql-data
+          hostPath:
+            path: /var/lib/mysql
+            type: DirectoryOrCreate
