@@ -41,15 +41,15 @@ spec:
             - name: nchan-conf
               mountPath: /etc/nginx/conf.d
               readOnly: true
-            - mountPath: /var/log/nginx
-              name: log
+            - name: log
+              mountPath: /var/log/nginx
       volumes:
-        - name: nchan-conf # volumeMountsで/etc/nginxにmountするやつ
+        - name: nchan-conf
           configMap:
-            name: nchan-conf # ConfigMapのnginx-confを/etc/nginx以下に配置する
+            name: nchan-conf
             items:
-              - key: nchan.conf # nginx-confのkey
-                path: default.conf # nginx.confというファイル名
+              - key: nchan-conf
+                path: default.conf
         - name: log
           emptyDir: {}
           # livenessProbe:
@@ -60,8 +60,6 @@ spec:
           #   httpGet:
           #     path: /
           #     port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
