@@ -31,20 +31,35 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
               containerPort: 80
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+          volumeMounts:
+            - name: nchan-conf
+              mountPath: /etc/nginx/conf.d
+              readOnly: true
+            - mountPath: /var/log/nginx
+              name: log
+      volumes:
+        - name: nchan-conf # volumeMountsで/etc/nginxにmountするやつ
+          configMap:
+            name: nchan-conf # ConfigMapのnginx-confを/etc/nginx以下に配置する
+            items:
+              - key: nchan.conf # nginx-confのkey
+                path: default.conf # nginx.confというファイル名
+        - name: log
+          emptyDir: {}
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
