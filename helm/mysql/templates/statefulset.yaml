@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "outgame-db.fullname" . }}
+  name: {{ include "mysql.fullname" . }}
   labels:
-    {{- include "outgame-db.labels" . | nindent 4 }}
+    {{- include "mysql.labels" . | nindent 4 }}
 spec:
-  serviceName: {{ include "outgame-db.fullname" . }}
+  serviceName: {{ include "mysql.fullname" . }}
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "outgame-db.selectorLabels" . | nindent 6 }}
+      {{- include "mysql.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -19,13 +19,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "outgame-db.selectorLabels" . | nindent 8 }}
+        {{- include "mysql.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "outgame-db.serviceAccountName" . }}
+      serviceAccountName: {{ include "mysql.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -69,6 +69,5 @@ spec:
       {{- end }}
       volumes:
         - name: mysql-data
-          hostPath:
-            path: /var/lib/mysql
-            type: DirectoryOrCreate
+          persistentVolumeClaim:
+            claimName: mysql-pvc

@@ -51,9 +51,8 @@ spec:
               name: redis
       volumes:
         - name: redis
-          hostPath:
-            path: /data
-            type: DirectoryOrCreate
+          persistentVolumeClaim:
+            claimName: redis-pvc
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
