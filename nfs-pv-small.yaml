@@ -7,7 +7,7 @@ spec:
     storage: 10Gi
   accessModes:
     - ReadWriteMany
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Recycle
   nfs:
     server: 140.238.48.97
     path: /himo/nfs
