@@ -35,7 +35,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["./bin/outgame"]
           ports:
-            - name: {{ include "outgame.fullname" . }}
+            - name: {{ .Chart.Name }}
               containerPort: 5502
               protocol: TCP
           # livenessProbe:
