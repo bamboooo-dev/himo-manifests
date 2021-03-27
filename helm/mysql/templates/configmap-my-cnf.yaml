@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-cnf
+data:
+  my.cnf: |
+    [client]
+    default-character-set=utf8
+
+    [mysql]
+    default-character-set=utf8
+
+    [mysqldump]
+    default-character-set=utf8
+
+    [mysqld]
+    character-set-server=utf8
+    
+  docker.cnf: |
+    [mysqld]
+    skip-host-cache
+    skip-name-resolve
