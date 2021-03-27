@@ -16,6 +16,7 @@ data:
       }
 
       # redirect server error pages to the static page /50x.html
+      #
       error_page   500 502 503 504  /50x.html;
       location = /50x.html {
           root   /usr/share/nginx/html;
@@ -23,29 +24,28 @@ data:
 
       nchan_channel_group_accounting on;
 
+      # /sub?channel_id=hogehoge&player_num=4 の形式で使う
       location = /sub {
         nchan_subscriber;
-        nchan_channel_group 'hoge_group';
-        nchan_channel_id 'fuga_id';
-        nchan_group_max_subscribers 5;
+        nchan_channel_group $arg_channel_id;
+        nchan_channel_id $arg_channel_id;
+        nchan_group_max_subscribers $arg_player_num;
         nchan_redis_pass my_redis_server;
       }
 
+      # /pub?channel_id=hogehoge の形式で使う
       location = /pub {
         nchan_publisher;
-        nchan_channel_group 'hoge_group';
-        nchan_channel_id 'fuga_id';
+        nchan_channel_group $arg_channel_id;
+        nchan_channel_id $arg_channel_id;
         nchan_redis_pass my_redis_server;
       }
 
+      # /group?channel_id=hogehoge の形式で使う
       location = /group {
-        nchan_channel_group hoge_group;
+        nchan_channel_group $arg_channel_id;
         nchan_group_location;
-        nchan_group_max_channels $arg_max_channels;
-        nchan_group_max_messages $arg_max_messages;
-        nchan_group_max_messages_memory $arg_max_messages_mem;
-        nchan_group_max_messages_disk $arg_max_messages_disk;
-        nchan_group_max_subscribers $arg_max_subs;
+        nchan_group_max_channels 1;
         nchan_redis_pass my_redis_server;
       }
     }
