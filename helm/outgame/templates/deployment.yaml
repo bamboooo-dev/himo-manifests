@@ -34,6 +34,9 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["./bin/outgame"]
+          envFrom:
+          - secretRef:
+              name: mysql-env
           ports:
             - name: {{ .Chart.Name }}
               containerPort: 5502
