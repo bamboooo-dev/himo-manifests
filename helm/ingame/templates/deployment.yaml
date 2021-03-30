@@ -34,6 +34,12 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["./bin/ingame"]
+          env:
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: jwt-secret
+                key: JWT_SECRET
           envFrom:
           - secretRef:
               name: mysql-env
