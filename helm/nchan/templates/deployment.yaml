@@ -41,8 +41,6 @@ spec:
             - name: nchan-conf
               mountPath: /etc/nginx/conf.d
               readOnly: true
-            - name: log
-              mountPath: /var/log/nginx
       volumes:
         - name: nchan-conf
           configMap:
@@ -50,8 +48,6 @@ spec:
             items:
               - key: nchan-conf
                 path: default.conf
-        - name: log
-          emptyDir: {}
           # livenessProbe:
           #   httpGet:
           #     path: /
