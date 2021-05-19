@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: nchan-conf
 data:
-  nchan-conf: |
+  default.conf: |
     upstream my_redis_server {
       nchan_redis_server redis;
     }
