@@ -34,9 +34,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          volumeMounts:
-            - mountPath: "/var/lib/mysql"
-              name: mysql-data
+          # volumeMounts:
+          #   - mountPath: "/var/lib/mysql"
+          #     name: mysql-data
           args:
           - "--default-authentication-plugin=mysql_native_password"
           env:
@@ -73,9 +73,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
-        - name: mysql-data
-          persistentVolumeClaim:
-            claimName: mysql-pvc
+        # - name: mysql-data
+        #   persistentVolumeClaim:
+        #     claimName: mysql-pvc
         - name: my-cnf
           configMap:
             name: my-cnf
