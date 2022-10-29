@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "redis.fullname" . }}
+  namespace: himo-ingame
   labels:
     {{- include "redis.labels" . | nindent 4 }}
 spec:
@@ -49,10 +50,6 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: redis
-      volumes:
-        - name: redis
-          persistentVolumeClaim:
-            claimName: redis-pvc
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -65,3 +62,6 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: redis
+          emptyDir: {}

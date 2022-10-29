@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "outgame.fullname" . }}
+  namespace: himo-outgame
   labels:
     {{- include "outgame.labels" . | nindent 4 }}
 spec:
