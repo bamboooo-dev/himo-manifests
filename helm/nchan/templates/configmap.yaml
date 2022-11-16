@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: nchan-conf
+  namespace: himo-ingame
 data:
   default.conf: |
     upstream my_redis_server {
@@ -9,10 +10,10 @@ data:
     }
     server {
       listen       80;
-      server_name  ingame;
+      server_name  himo-ingame;
 
       location / {
-        proxy_pass http://ingame:8080/;
+        proxy_pass http://himo-ingame:8080/;
       }
 
       # redirect server error pages to the static page /50x.html

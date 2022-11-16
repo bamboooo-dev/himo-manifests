@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "nchan.fullname" . }}
+  namespace: himo-ingame
   labels:
     {{- include "nchan.labels" . | nindent 4 }}
 spec:
