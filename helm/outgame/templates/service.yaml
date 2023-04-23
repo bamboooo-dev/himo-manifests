@@ -10,5 +10,6 @@ spec:
     - port: {{ .Values.service.port }}
       targetPort: 5502
       protocol: TCP
+      nodePort: {{ .Values.service.nodePort }}
   selector:
     {{- include "outgame.selectorLabels" . | nindent 4 }}

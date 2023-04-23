@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: weseek/nginx-nchan
+  repository: bamboooo/nginx-nchan
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: latest
@@ -39,6 +39,7 @@ securityContext: {}
 service:
   type: NodePort
   port: 80
+  nodePort: 30687
 
 ingress:
   enabled: false
